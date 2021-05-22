@@ -3,18 +3,18 @@ const Review = require('./review');
 
 const Schema = mongoose.Schema;
 
+const opts = { toJSON: { virtuals: true } };
 
 
 const imageSchema = new Schema({
     url: String,
     filename: String
-})
+}, opts)
 
 imageSchema.virtual('thumbnail').get(function () {
     return this.url.replace('/upload', '/upload/w_380')
 })
 
-const opts = { toJSON: { virtuals: true } };
 
 const campgroundSchema = new Schema({
     title: String,

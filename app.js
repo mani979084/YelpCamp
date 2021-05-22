@@ -21,8 +21,11 @@ const User = require('./models/user')
 const mongoSanitize = require('express-mongo-sanitize');
 const helmet = require("helmet");
 const MongoStore = require('connect-mongo');
+// const cors = require('cors');
 
-const dburl = process.env.DB_URL || 'mongodb://localhost:27017/yelpCamp';
+
+// process.env.DB_URL || 
+const dburl = 'mongodb://localhost:27017/yelpCamp';
 mongoose.connect(dburl, {
     useNewUrlParser: true,
     useUnifiedTopology: true,
@@ -72,6 +75,18 @@ const sessionConfig = {
     }
 }
 
+// app.use(cors());
+app.use(function (req, res, next) {
+    res.header('Access-Control-Allow-Credentials', true);
+    res.header('Access-Control-Allow-Origin', req.headers.origin);
+    res.header('Access-Control-Allow-Methods', 'GET,PUT,POST,DELETE');
+    res.header('Access-Control-Allow-Headers', 'X-Requested-With, X-HTTP-Method-Override, Content-Type, Accept');
+    if ('OPTIONS' == req.method) {
+        res.send(200);
+    } else {
+        next();
+    }
+});
 app.use(express.urlencoded({ extended: true }));
 app.use(methodOverride('_method'));
 app.use(express.static(path.join(__dirname, 'public')));
@@ -150,8 +165,15 @@ app.use('/campground', campgroundRoute);
 app.use('/campground/:id/review', reviewRoute);
 
 
-app.get('/', (req, res) => {
-    res.render('campground/home0');
+
+app.get('/locals', (req, res) => {
+    // res.render('campground/home0');
+    res.json({
+        path: req.session.path || null,
+        currentUser: req.user || null,
+        success: req.flash('success'),
+        error: req.flash('error')
+    })
 })
 
 
@@ -163,10 +185,11 @@ app.all('*', (req, res, next) => {
 app.use((err, req, res, next) => {
     const { statusCode = 500 } = err;
     if (!err.message) err.message = 'Oh boy,Something went wrong';
-    res.status(statusCode).render('./campground/error', { err });
+    // res.status(statusCode);
+    res.json({ error: err.message });
 })
 
-const port = process.env.PORT || 3000;
+const port = process.env.PORT || 5000;
 
 app.listen(port, () => {
     console.log(`listening on ${port}`)

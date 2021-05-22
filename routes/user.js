@@ -8,9 +8,19 @@ router.route('/register')
     .get(users.renderRegister)
     .post(catchAsync(users.registerUser))
 
+
+router.get('/loginFail', (req, res) => {
+    req.flash('error', 'login failed');
+    res.json({ error: 'Login failed' })
+})
+
 router.route('/login')
     .get(users.renderLogin)
-    .post(passport.authenticate('local', { failureFlash: true, failureRedirect: '/login' }), users.loginUser)
+    .post(passport.authenticate('local', {
+        failureFlash: true,
+        failureRedirect: '/loginFail'
+
+    }), users.loginUser)
 
 router.get('/logout', users.logoutUser)
 

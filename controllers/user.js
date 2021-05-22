@@ -15,12 +15,12 @@ module.exports.registerUser = async (req, res) => {
         req.login(registeredUser, err => {
             if (err) return next(err);
             req.flash('success', 'Successfully Registered!!!');
-            res.redirect('/campground');
+            res.json({ success: 'Successfully Registered' })
         })
 
     } catch (e) {
         req.flash('error', e.message);
-        res.redirect('/register')
+        res.json({ error: 'registration failed' })
     }
 }
 
@@ -32,11 +32,11 @@ module.exports.loginUser = (req, res) => {
     req.flash('success', 'Welcome Back!');
     const url = req.session.path || '/campground';
     delete req.session.path;
-    res.redirect(url);
+    res.json({ url: url, success: 'Successfully LoggedIn' });
 }
 
 module.exports.logoutUser = (req, res) => {
     req.logout();
     req.flash('success', 'Successfully Logged Out')
-    res.redirect('/campground')
+    res.json({ success: 'Successfully Logged Out' })
 }
