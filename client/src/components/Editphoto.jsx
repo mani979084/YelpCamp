@@ -85,15 +85,6 @@ const Editphoto = ({ setAlert, setSpinner, removeSpinner, spinner }) => {
         fetchMyApi();
 
     }
-    const styles = {
-
-        width: 'auto',
-        height: '100px',
-        maxHeight: '100px',
-        display: 'flex',
-        alignItems: 'center'
-
-    }
 
     function buttonClick() {
         setinput(true)
@@ -135,7 +126,7 @@ const Editphoto = ({ setAlert, setSpinner, removeSpinner, spinner }) => {
                                         {camp.images && camp.images.map((img, i) => (<Fragment key={img._id}>
                                             <div className="col-4 col-xl-3 mb-3 ">
                                                 <div className={img.filename === 'default' ? 'd-none' : ''}>
-                                                    <div className="carousel-inner" style={styles}>
+                                                    <div className="carousel-inner thumb">
 
                                                         <img className="card-img-top" src={img.thumbnail} alt="" />
 

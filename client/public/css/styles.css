@@ -17,5 +17,19 @@
         background:transparent;
         border: none;
 }
+.carimg{
+        width: auto;
+        height: 300px;
+        max-height: 300px;
+        display: flex;
+        align-items: center
+}
+.thumb{
+        width: auto;
+        height: 100px;
+        max-height: 100px;
+        display: flex;
+        align-items: center
+}
 
 

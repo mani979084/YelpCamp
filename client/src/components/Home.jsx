@@ -29,13 +29,6 @@ const Home = () => {
         fetch();
     }, [])
 
-    const styles = {
-        width: 'auto',
-        height: '300px',
-        maxHeight: '300px',
-        display: 'flex',
-        alignItems: 'center'
-    }
 
     return (
         <Fragment>
@@ -43,12 +36,12 @@ const Home = () => {
 
                 <main className="container  my-5">
                     <Flash />
-                    <div id='map' className="mb-md-2 mb-5 map1"></div>
+                    <div id='map' className="mb-2 map1"></div>
 
-                    {fulldata && fulldata.map((camp) => (<div key={camp._id} className="border-bottom ">
+                    {fulldata && fulldata.map((camp) => (<div key={camp._id} className="border-bottom">
                         <div className="row">
                             <div className="col-md-4">
-                                <div className=" carousel-inner" style={styles}>
+                                <div className=" carousel-inner carimg">
                                     <img className="img-fluid" src={camp.images[0].url} alt="" />
 
                                 </div>
