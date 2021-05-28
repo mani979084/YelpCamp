@@ -1,32 +1,40 @@
 import React, { Fragment, useEffect, useState } from 'react'
 import { useParams, Redirect } from 'react-router-dom'
 import axios from 'axios'
-import Navbar from './partials/Navbar'
+import Flash from './partials/Flash'
+import { connect } from 'react-redux';
+import PropTypes from 'prop-types'
+import { setAlert } from '../actions/alert'
+import Spin from './partials/Spin';
+import { setSpinner, removeSpinner } from '../actions/spinner'
+import Back from './partials/Back';
 
 
-const Editphoto = ({ getlocals, currentUser }) => {
+
+const Editphoto = ({ setAlert, setSpinner, removeSpinner, spinner }) => {
 
     const { id } = useParams()
     const [camp, setcamp] = useState();
     const [isinput, setinput] = useState(false);
     const [fileinputs, setfile] = useState({ images: [], deleteImages: [] });
+    const [isspin, setspin] = useState(true)
+    const [iserror, seterror] = useState(false)
 
 
     useEffect(() => {
         async function fetch() {
-            const res = await axios.get(`/campground/${id}/edit`)
+            const res = await axios.get(`/api/campground/${id}/editphoto`)
             setcamp(res.data)
+            setspin(false)
+            if (res.data.error) {
+                seterror(true)
+                setAlert(res.data.error, 'danger')
+            }
+
         }
 
         fetch();
-    }, [])
-
-
-
-    if (camp && camp.error) {
-        console.log(camp.error)
-        return <Redirect to={'/campground'} />
-    }
+    }, [id, setAlert])
 
 
     function handleChange(e) {
@@ -47,32 +55,36 @@ const Editphoto = ({ getlocals, currentUser }) => {
 
     function handleSubmit(e) {
         e.preventDefault();
+        setSpinner()
         async function fetchMyApi() {
             const data = new FormData();
-            for (var i = 0; i < fileinputs.images.length; i++) {
+            for (let i = 0; i < fileinputs.images.length; i++) {
                 data.append('images', fileinputs.images[i])
             }
-            for (var i = 0; i < fileinputs.deleteImages.length; i++) {
+            for (let i = 0; i < fileinputs.deleteImages.length; i++) {
                 data.append('deleteImages', fileinputs.deleteImages[i])
             }
             const res = await axios({
                 method: 'put',
-                url: `/campground/${id}/editphoto`,
+                url: `/api/campground/${id}/editphoto`,
                 data: data
             })
-            console.log(res.data)
-            setinput(true);
+            removeSpinner()
+
+            if (res.data.success) {
+                setinput(true);
+                setAlert(res.data.success, 'success')
+            } else {
+                setAlert(res.data.error, 'danger')
+                seterror(true)
+
+            }
 
 
         }
         fetchMyApi();
 
     }
-
-    if (isinput) {
-        return <Redirect to={`/campground/${id}`} />
-    }
-
     const styles = {
 
         width: 'auto',
@@ -83,16 +95,32 @@ const Editphoto = ({ getlocals, currentUser }) => {
 
     }
 
+    function buttonClick() {
+        setinput(true)
+    }
+
+
+
+    if (iserror) {
+        return <Redirect to='/login' />
+    }
+
+    if (isinput) {
+        return <Redirect to={`/campground/${id}/edit`} />
+    }
+
+
+
     return (
 
         <Fragment>
-            <Navbar currentUser={currentUser} getlocals={getlocals} />
-            <main className="container mt-5">
+            {isspin ? <Spin /> : <main className="container  mt-5">
 
                 {camp && <div className="row mb-5">
                     <div className="col-md-6 offset-md-3">
                         {/* <%- include('../partials/flashAlert') %> */}
-
+                        <Flash />
+                        <Back buttonClick={buttonClick} />
                         <div className="card shadow">
                             <div className="card-body">
                                 <h1 className="text-center mb-4">Edit Photos</h1>
@@ -104,7 +132,7 @@ const Editphoto = ({ getlocals, currentUser }) => {
                                     </div>
                                     <div className="row">
                                         {/* <% camp.images.forEach((img,i)=>{ %> */}
-                                        {camp.images.map((img, i) => (<Fragment key={img._id}>
+                                        {camp.images && camp.images.map((img, i) => (<Fragment key={img._id}>
                                             <div className="col-4 col-xl-3 mb-3 ">
                                                 <div className={img.filename === 'default' ? 'd-none' : ''}>
                                                     <div className="carousel-inner" style={styles}>
@@ -119,7 +147,7 @@ const Editphoto = ({ getlocals, currentUser }) => {
                                                             value={img.filename} id={`image-${i}`} />
                                                         <label className="form-check-label" htmlFor={`image-${i}`}>
                                                             Delete?
-                                                </label>
+                                </label>
 
                                                     </div>
                                                 </div>
@@ -133,16 +161,28 @@ const Editphoto = ({ getlocals, currentUser }) => {
                                     </div>
 
                                     <div className="text-center card-body">
-                                        <button className="btn btn-primary w-50">Update Photos</button>
+                                        <button className="btn btn-primary w-50">Update Photos <div style={spinner} className="spinner-border spinner-border-sm" role="status" /></button>
                                     </div>
                                 </form>
                             </div>
                         </div>
                     </div>
                 </div>}
-            </main>
+            </main>}
+
         </Fragment>
     )
 }
 
-export default Editphoto;
+Editphoto.propTypes = {
+    setAlert: PropTypes.func.isRequired,
+    setSpinner: PropTypes.func.isRequired,
+    removeSpinner: PropTypes.func.isRequired,
+    spinner: PropTypes.object.isRequired,
+}
+
+const mapStateToProps = state => ({
+    spinner: state.spinner
+})
+
+export default connect(mapStateToProps, { setAlert, setSpinner, removeSpinner })(Editphoto);

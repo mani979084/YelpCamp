@@ -18,7 +18,8 @@ module.exports.renderIndex = async (req, res) => {
 }
 
 module.exports.renderNewCamp = (req, res) => {
-    res.render('./campground/new')
+    // res.render('./campground/new')
+    res.json({ success: 'Creating Camp' })
 }
 
 module.exports.createCamp = async (req, res) => {

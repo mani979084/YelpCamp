@@ -27,7 +27,7 @@ module.exports.validateReview = (req, res, next) => {
 module.exports.isLoggedIn = (req, res, next) => {
 
     if (!req.isAuthenticated()) {
-        req.session.path = req.originalUrl;
+        req.session.returnTo = req.originalUrl;
         req.flash('error', 'Please login!!!')
         return res.json({ error: 'Please Login' });
     }

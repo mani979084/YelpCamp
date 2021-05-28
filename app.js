@@ -24,8 +24,8 @@ const MongoStore = require('connect-mongo');
 // const cors = require('cors');
 
 
-// process.env.DB_URL || 
-const dburl = 'mongodb://localhost:27017/yelpCamp';
+
+const dburl = process.env.DB_URL || 'mongodb://localhost:27017/yelpCamp';
 mongoose.connect(dburl, {
     useNewUrlParser: true,
     useUnifiedTopology: true,
@@ -89,7 +89,7 @@ app.use(function (req, res, next) {
 });
 app.use(express.urlencoded({ extended: true }));
 app.use(methodOverride('_method'));
-app.use(express.static(path.join(__dirname, 'public')));
+// app.use(express.static(path.join(__dirname, 'public')));
 app.use(session(sessionConfig));
 app.use(flash());
 app.use(mongoSanitize({
@@ -160,34 +160,38 @@ app.use((req, res, next) => {
     next();
 })
 
-app.use('/', userRoute);
-app.use('/campground', campgroundRoute);
-app.use('/campground/:id/review', reviewRoute);
+app.use('/api', userRoute);
+app.use('/api/campground', campgroundRoute);
+app.use('/api/campground/:id/review', reviewRoute);
 
 
 
-app.get('/locals', (req, res) => {
+app.get('/api/locals', (req, res) => {
     // res.render('campground/home0');
     res.json({
         path: req.session.path || null,
         currentUser: req.user || null,
-        success: req.flash('success'),
-        error: req.flash('error')
+
     })
 })
 
-
-
-
-app.all('*', (req, res, next) => {
-    next(new ExpressError('Page Not Found!!!', 404));
-})
+// app.all('*', (req, res, next) => {
+//     next(new ExpressError('Page Not Found!!!', 404));
+// })
 app.use((err, req, res, next) => {
     const { statusCode = 500 } = err;
     if (!err.message) err.message = 'Oh boy,Something went wrong';
     // res.status(statusCode);
     res.json({ error: err.message });
 })
+
+if (process.env.NODE_ENV === 'production') {
+    app.use(express.static('client/build'));
+
+    app.get('*', (req, res) => {
+        res.sendFile(path.resolve(__dirname, 'client', 'build', 'index.html'))
+    })
+}
 
 const port = process.env.PORT || 5000;
 

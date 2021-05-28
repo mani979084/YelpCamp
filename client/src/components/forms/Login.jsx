@@ -2,10 +2,16 @@ import React, { Fragment, useEffect, useState } from 'react'
 import { Redirect } from 'react-router-dom';
 import axios from 'axios';
 import qs from 'qs';
-import Navbar from '../partials/Navbar'
+import { setAlert } from '../../actions/alert'
+import { setSpinner, removeSpinner } from '../../actions/spinner'
+import PropTypes from 'prop-types'
+import { connect } from 'react-redux';
+import Flash from '../partials/Flash'
+import Back from '../partials/Back';
 
 
-const Login = ({ getlocals, currentUser }) => {
+
+const Login = ({ getlocals, setAlert, setSpinner, removeSpinner, spinner }) => {
     const [logdata, setlogdata] = useState({ username: '', password: '' });
     const [dataurl, seturl] = useState({ url: '/campground' });
     const [islogged, setlogged] = useState(false);
@@ -16,24 +22,32 @@ const Login = ({ getlocals, currentUser }) => {
     }
     function handleSubmit(e) {
         e.preventDefault();
+        if (!e.target.checkValidity()) {
+            return e.target.classList.add('was-validated')
+        }
+        setSpinner()
         async function fetchMyApi() {
 
             const res = await axios({
                 method: 'post',
-                url: '/login',
+                url: '/api/login',
                 data: qs.stringify(logdata),
                 headers: {
                     'content-type': 'application/x-www-form-urlencoded'
                 },
                 withCredentials: true
             })
-            const localres = await axios.get('/locals')
-            getlocals(localres.data)
-            console.log(res.data)
+            getlocals()
             seturl({ ...dataurl, ...res.data })
-            if (res.data.url) {
+            removeSpinner()
+            if (res.data.success) {
                 setlogged(true)
+                setAlert(res.data.success, 'success')
+            } else {
+                setAlert(res.data.error, 'danger')
+
             }
+
 
         }
         fetchMyApi();
@@ -42,7 +56,7 @@ const Login = ({ getlocals, currentUser }) => {
 
     useEffect(() => {
         async function fetchMyApi() {
-            const localres = await axios.get('/locals')
+            const localres = await axios.get('/api/locals')
             if (localres.data.currentUser) {
                 setlogged(true)
             }
@@ -52,6 +66,11 @@ const Login = ({ getlocals, currentUser }) => {
 
     }, [])
 
+    function buttonClick() {
+        setlogged(true)
+    }
+
+
     if (islogged) {
         return <Redirect to={dataurl.url} />
     }
@@ -59,18 +78,20 @@ const Login = ({ getlocals, currentUser }) => {
 
     return (
         <Fragment>
-            <Navbar currentUser={currentUser} getlocals={getlocals} />
-            <main className="container mt-5">
+            <main className="container  mt-5">
 
-                <div className="row">
+                <div className="row mb-5">
 
                     <div className="col-10 offset-1 col-md-6 offset-md-3 col-xl-4 offset-xl-4">
                         {/* <%- include('../partials/flashAlert') %> */}
+                        <Flash />
+                        <Back buttonClick={buttonClick} />
 
                         <div className="card shadow">
                             <form onSubmit={handleSubmit} className="needs-validation" noValidate>
-                                <div className="card-body pb-0">
-                                    <h4>Login</h4>
+                                <div className="card-body pb-0 ">
+                                    <h4>Login </h4>
+
                                 </div>
                                 <div className="card-body">
                                     <label className="form-label" htmlFor="username">Enter Username</label>
@@ -89,16 +110,28 @@ const Login = ({ getlocals, currentUser }) => {
                                 </div>
                                 </div>
                                 <div className="card-body d-grid">
-                                    <button className="btn btn-success">SignIn</button>
+                                    <button className="btn btn-success fw-bold">SignIn <div style={spinner} className="spinner-border spinner-border-sm" role="status" /></button>
                                 </div>
 
                             </form>
                         </div>
                     </div>
-                </div></main>
+                </div>
+            </main>
         </Fragment>
     )
 }
 
-export default Login
+Login.propTypes = {
+    setAlert: PropTypes.func.isRequired,
+    setSpinner: PropTypes.func.isRequired,
+    removeSpinner: PropTypes.func.isRequired,
+    spinner: PropTypes.object.isRequired,
+}
+
+const mapStateToProps = state => ({
+    spinner: state.spinner
+})
+
+export default connect(mapStateToProps, { setAlert, setSpinner, removeSpinner })(Login)
 

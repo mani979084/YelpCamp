@@ -1,39 +1,71 @@
 import React, { Fragment, useEffect, useState } from 'react'
 import { useParams, Link, Redirect } from 'react-router-dom'
 import axios from 'axios'
-import Navbar from './partials/Navbar'
+import Flash from './partials/Flash'
+import Spin from './partials/Spin'
+import { connect } from 'react-redux';
+import PropTypes from 'prop-types'
+import { setAlert } from '../actions/alert'
+import { setSpinner, removeSpinner } from '../actions/spinner'
 
 import Comments from './Comments'
+import Back from './partials/Back'
+import { Helmet } from 'react-helmet'
 
-const Show = ({ getlocals, currentUser }) => {
+const Show = ({ currentUser, setAlert, spinner, setSpinner, removeSpinner }) => {
 
     const { id } = useParams();
     const [camp, setcamp] = useState();
     const [isdelete, setdelete] = useState(false)
+    const [isspin, setspin] = useState(true)
+    const [iserror, seterror] = useState(false)
+    const [isvalue, setvalue] = useState(false)
+
     useEffect(() => {
         async function fetch() {
-            const res = await axios.get(`/campground/${id}`)
+            const res = await axios.get(`/api/campground/${id}`)
             setcamp(res.data)
+            setspin(false)
+            if (res.data.error) {
+                setAlert(res.data.error, 'danger')
+                seterror(true)
+            }
 
         }
         fetch();
-    }, [])
+    }, [isvalue, id, setAlert])
 
     function handleSubmit(e) {
         e.preventDefault();
+        setSpinner()
         async function fetch() {
             const res = await axios({
                 method: 'delete',
-                url: `/campground/${id}`
+                url: `/api/campground/${id}`
             })
-            console.log(res.data)
             setdelete(true)
+            removeSpinner()
+            if (res.data.success) {
+                setAlert(res.data.success, 'success')
+            } else {
+                setAlert(res.data.error, 'danger')
+
+            }
+
         }
         fetch();
     }
 
-    function getcamp(data) {
-        setcamp(data)
+    function getcamp() {
+        setvalue(!isvalue)
+    }
+
+    function buttonClick() {
+        setdelete(true)
+    }
+
+    if (iserror) {
+        return <Redirect to='/campground' />
     }
 
     if (isdelete) {
@@ -53,15 +85,17 @@ const Show = ({ getlocals, currentUser }) => {
 
     return (
         <Fragment>
-            <Navbar currentUser={currentUser} getlocals={getlocals} />
-            <main className="container mt-5">
+            {isspin ? <Spin /> : <main className="container  mt-5">
 
                 {
-                    camp && <div className="container mb-5">
+                    camp.images && <Fragment> <div id="campid" campid={id} className="container mb-5">
                         <div className="row">
+                            <Flash />
+                            <Back buttonClick={buttonClick} />
 
                             <div className="col-md-6">
                                 {/* <%- include('../partials/flashAlert') %> */}
+
 
                                 <div className="card">
                                     <div className="card-body">
@@ -113,12 +147,12 @@ const Show = ({ getlocals, currentUser }) => {
                                     {currentUser && camp.author._id === currentUser._id && <Fragment>
                                         <div className="row card-body">
                                             <div className="col-md-6 mb-3 mb-md-0 d-grid">
-                                                <Link to={`/campground/${camp._id}/edit`} className="card-link btn btn-warning">Edit
-                            Campground</Link>
+                                                <Link to={`/campground/${camp._id}/edit`} className="card-link btn btn-info">Edit
+            Campground</Link>
                                             </div>
                                             <div className="col-md-6">
                                                 <form onSubmit={handleSubmit} className="d-grid">
-                                                    <button className="btn btn-danger">Delete Campground</button>
+                                                    <button className="btn  btn-danger">Delete Campground <div style={spinner} className="spinner-border spinner-border-sm" role="status" /></button>
                                                 </form>
                                             </div>
                                         </div>
@@ -128,7 +162,7 @@ const Show = ({ getlocals, currentUser }) => {
                                     {/* <% } %> */}
                                     <footer className="card-footer text-muted">
                                         2 days ago
-                    </footer>
+    </footer>
                                 </div>
                             </div>
                             <div className="col-md-6 mt-3 mt-md-0">
@@ -136,10 +170,26 @@ const Show = ({ getlocals, currentUser }) => {
                             </div>
                         </div>
                     </div>
+                        <Helmet>
+                            <script src="/javascripts/showPageMap.js"></script>
+                        </Helmet>
+                    </Fragment>
                 }
-            </main>
+            </main>}
+
         </Fragment>)
 
 }
 
-export default Show;
+Show.propTypes = {
+    setAlert: PropTypes.func.isRequired,
+    setSpinner: PropTypes.func.isRequired,
+    spinner: PropTypes.object.isRequired,
+    removeSpinner: PropTypes.func.isRequired,
+}
+
+const mapStateToProps = state => ({
+    spinner: state.spinner
+})
+
+export default connect(mapStateToProps, { setAlert, setSpinner, removeSpinner })(Show);

@@ -1,30 +1,34 @@
 import React, { useState } from 'react'
-import { Link, Redirect } from 'react-router-dom';
+import { Link } from 'react-router-dom';
 import axios from 'axios';
+import { setAlert } from '../../actions/alert'
+import PropTypes from 'prop-types'
+import { connect } from 'react-redux';
 
-const Navbar = ({ currentUser, getlocals }) => {
-
-    const [islogout, setlogout] = useState(false);
+const Navbar = ({ currentUser, getlocals, setAlert }) => {
+    const [isstyles, setstyle] = useState({
+        display: 'none'
+    })
 
     function handleClick() {
+        setstyle({
+            display: ''
+        })
         async function fetch() {
-            const res = await axios.get('/logout')
-            console.log(res.data);
-            setlogout(true);
-            const localres = await axios.get('/locals')
-            getlocals(localres.data)
+            const res = await axios.get('/api/logout')
+            getlocals()
+            setAlert(res.data.success, 'success')
+            setstyle({
+                display: 'none'
+            })
         }
         fetch();
     }
 
-    // if (islogout) {
-    //     return <Redirect to={'/campground'} />
-    // }
-
     return (
         <nav className="navbar sticky-top navbar-expand-lg navbar-dark bg-dark">
             <div className="container-fluid">
-                <a className="navbar-brand" href="/">YelpCamp</a>
+                <Link className="navbar-brand" to="/">YelpCamp</Link>
                 <button className="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNavAltMarkup"
                     aria-controls="navbarNavAltMarkup" aria-expanded="false" aria-label="Toggle navigation">
                     <span className="navbar-toggler-icon"></span>
@@ -36,8 +40,9 @@ const Navbar = ({ currentUser, getlocals }) => {
                         <Link className="nav-link" to="/campground/new">New Campgrounds</Link>
                     </div>
                     <div className="navbar-nav ms-auto">
-                        {!currentUser ? <div className='d-md-flex'> <a className="nav-link" href="/login">Login</a>
-                            <a className="nav-link" href="/register">Register</a></div> : <Link to='#!' onClick={handleClick} className="nav-link">Logout</Link>} </div>
+                        {!currentUser ? <div className='d-md-flex'> <Link className="nav-link" to="/login">Login</Link>
+                            <Link className="nav-link" to="/register">Register</Link></div> : <Link to='#!' onClick={handleClick} className="nav-link">Logout <div style={isstyles} className="spinner-border spinner-border-sm" role="status" /></Link>} </div>
+
 
                 </div>
             </div>
@@ -45,4 +50,8 @@ const Navbar = ({ currentUser, getlocals }) => {
     )
 }
 
-export default Navbar
+Navbar.propTypes = {
+    setAlert: PropTypes.func.isRequired
+}
+
+export default connect(null, { setAlert })(Navbar)

@@ -1,20 +1,22 @@
 import React from 'react'
+import PropTypes from 'prop-types'
+import { connect } from 'react-redux'
 
-const Flash = ({ success, error }) => {
+const Flash = ({ alerts }) => {
     return (
-        <div>
-            {success && success.length && <div class="alert alert-success alert-dismissible fade show" role="alert">
-                {success}
-                <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
-            </div>}
-
-            {error && error.length && <div class="alert alert-danger alert-dismissible fade show" role="alert">
-                {error}
-                <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
-            </div>}
-
-        </div>
+        alerts !== null && alerts.length > 0 &&
+        alerts.map(alert => (<div key={alert.id} className={`alert alert-${alert.alertType}`}>
+            {alert.msg}
+        </div>))
     )
 }
 
-export default Flash
+Flash.propTypes = {
+    alerts: PropTypes.array.isRequired
+}
+
+const mapStateToProps = state => ({
+    alerts: state.alert
+})
+
+export default connect(mapStateToProps)(Flash)

@@ -1,12 +1,17 @@
 import React, { Fragment, useState } from 'react'
 import axios from 'axios';
 import qs from 'qs'
-import { Redirect } from 'react-router-dom';
+import Deletespin from './partials/Deletespin';
+
 
 
 const Comments = ({ currentUser, camp, id, getcamp }) => {
 
     const [formin, setformin] = useState({ review: { rating: 5, comment: '' } });
+    const [spin1, setspin1] = useState({
+        display: 'none'
+    })
+    const [spin2, setspin2] = useState(false)
 
     function handleChange(e) {
         const { name, value } = e.target;
@@ -15,20 +20,25 @@ const Comments = ({ currentUser, camp, id, getcamp }) => {
 
     function handleSubmit(e) {
         e.preventDefault();
+        if (!e.target.checkValidity()) {
+            return e.target.classList.add('was-validated')
+        }
+        setspin1({ display: '' })
         async function fetchMyApi() {
 
-            const res = await axios({
+            await axios({
                 method: 'post',
-                url: `/campground/${id}/review`,
+                url: `/api/campground/${id}/review`,
                 data: qs.stringify(formin),
                 headers: {
                     'content-type': 'application/x-www-form-urlencoded'
                 },
             })
-            console.log(res.data)
-
-            const newcamp = await axios.get(`/campground/${id}`)
-            getcamp(newcamp.data)
+            e.target.classList.remove('was-validated')
+            setTimeout(() => {
+                setspin1({ display: 'none' })
+            }, 1000);
+            getcamp()
         }
         fetchMyApi();
 
@@ -36,15 +46,18 @@ const Comments = ({ currentUser, camp, id, getcamp }) => {
 
     function handleClick(e) {
         const { name } = e.target
+        setspin2(true)
         async function fetchMyApi() {
 
-            const res = await axios({
+            await axios({
                 method: 'delete',
-                url: `/campground/${id}/review/${name}`
+                url: `/api/campground/${id}/review/${name}`
             })
-            console.log(res.data)
-            const newcamp = await axios.get(`/campground/${id}`)
-            getcamp(newcamp.data)
+            getcamp()
+            setTimeout(() => {
+                setspin2(false)
+            }, 1000);
+
         }
         fetchMyApi();
     }
@@ -52,10 +65,10 @@ const Comments = ({ currentUser, camp, id, getcamp }) => {
 
     return (
         <Fragment>
-            {/* <div id='map' className="mb-3" style='width: 100%; height: 300px;'></div> */}
+            <div id='map1' className="mb-3 map2"></div>
 
             {currentUser && <div id='review' className="card">
-                <h5 className="card-header">Leave a Comment!</h5>
+                <h5 className="card-header">Leave a Comment!  </h5>
                 <div className="card-body pt-0">
                     <form onSubmit={handleSubmit} className="needs-validation"
                         noValidate>
@@ -88,44 +101,58 @@ const Comments = ({ currentUser, camp, id, getcamp }) => {
                                 Please enter your comments.
                         </div>
                         </div>
-                        <button className="btn btn-success mt-3">Leave comment</button>
+                        <div className='d-flex'>
+                            <button className="btn btn-success mt-3">Leave comment</button>
+                            <button className='mt-3 trans'><div style={spin1} className="spinner-border spinner-border-sm text-success" role="status" /></button>
+
+                            <button type="button" className="btn com-bn btn-primary mt-3 ms-auto">
+                                comments <span className="badge bg-light text-dark">{camp.reviews.length}</span>
+                            </button>
+
+                        </div>
                     </form>
                 </div>
             </div>}
 
             {/* <% } %> */}
             {/* <%for(let review of camp.reviews){%> */}
-            {camp.reviews.map((review) => (
-                <div key={review._id} className="border-bottom">
-                    <div className="card-body">
 
-                        <h5 className="card-title">
-                            <small className="text-muted">
-                                / {review.author.username}
-                            </small>
-                        </h5>
+            {spin2 ? <Deletespin /> : <Fragment>
+                {camp.reviews.map((review) => (
+                    <div key={review._id} className="border-bottom">
+                        <div className="card-body">
 
-                        <p className="starability-result" data-rating={review.rating}>
-                            Rated: {review.rating}stars
+                            <h5 className="card-title">
+                                <small className="text-muted">
+                                    / {review.author.username}
+                                </small>
+                            </h5>
+
+                            <p className="starability-result" data-rating={review.rating}>
+                                Rated: {review.rating}stars
                         </p>
-                        <p className="card-text">
-                            <b>Comment:</b>
-                            {review.comment}
-                        </p>
-                        {/* <% if(currentUser && review.author.equals(currentUser._id)){ %> */}
-                        {currentUser && review.author._id === currentUser._id &&
-                            <button onClick={handleClick} name={review._id} className="btn btn-sm btn-danger">Delete</button>
+                            <p className="card-text">
 
-                        }
+                                {review.comment}
+                            </p>
+                            {/* <% if(currentUser && review.author.equals(currentUser._id)){ %> */}
+                            {currentUser && review.author._id === currentUser._id &&
+                                <button onClick={handleClick} name={review._id} className="btn btn-sm btn-warning">Delete </button>
 
-                        {/* <% } %> */}
+                            }
+
+                            {/* <% } %> */}
+                        </div>
                     </div>
-                </div>
-            ))}
+                ))}
+            </Fragment>}
 
 
         </Fragment>
     )
 }
+
+
+
 
 export default Comments

@@ -1,7 +1,8 @@
 const User = require('../models/user')
 
 module.exports.renderRegister = (req, res) => {
-    res.render('./form/register')
+    // res.render('./form/register')
+    res.json({ success: 'Showing Register' })
 }
 
 module.exports.registerUser = async (req, res) => {
@@ -20,19 +21,21 @@ module.exports.registerUser = async (req, res) => {
 
     } catch (e) {
         req.flash('error', e.message);
-        res.json({ error: 'registration failed' })
+        res.json({ error: e.message })
     }
 }
 
 module.exports.renderLogin = (req, res) => {
-    res.render('./form/login')
+    // res.render('./form/login')
+    res.json({ success: 'Showing Login' })
 }
 
 module.exports.loginUser = (req, res) => {
     req.flash('success', 'Welcome Back!');
-    const url = req.session.path || '/campground';
-    delete req.session.path;
-    res.json({ url: url, success: 'Successfully LoggedIn' });
+    const newurl = req.session.returnTo.replace('/api/', '/')
+    const url = newurl || '/campground';
+    delete req.session.returnTo;
+    res.json({ url: url, success: 'Welcome Back!' });
 }
 
 module.exports.logoutUser = (req, res) => {
