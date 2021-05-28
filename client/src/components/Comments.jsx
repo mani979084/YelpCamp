@@ -146,12 +146,12 @@ const Comments = ({ currentUser, camp, id, getcamp }) => {
                         </div>
                     </div>
                 ))}
-                <Helmet>
-                    <script src="/javascripts/showPageMap.js"></script>
-                </Helmet>
+
             </Fragment>}
 
-
+            <Helmet>
+                <script src="/javascripts/showPageMap.js"></script>
+            </Helmet>
         </Fragment>
     )
 }
