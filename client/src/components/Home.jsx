@@ -11,6 +11,8 @@ const Home = () => {
 
     const [fulldata, setfullData] = useState();
     const [isspin, setspin] = useState(true)
+    const [isspin1, setspin1] = useState(true)
+    const [isstyles, setstyles] = useState({ display: 'none' })
 
 
     useEffect(() => {
@@ -23,6 +25,10 @@ const Home = () => {
             const res = await axios.get('/api/campground', config)
             setfullData(res.data);
             setspin(false)
+            setTimeout(() => {
+                setspin1(false)
+                setstyles({ display: '' })
+            }, 1000);
 
 
         }
@@ -36,7 +42,9 @@ const Home = () => {
 
                 <main className="container my-5">
                     <Flash />
-                    <div id='map' className="mb-md-2 mb-3  map1"></div>
+                    {isspin1 && <div className='map1'><Spin /></div>}
+
+                    <div id='map' style={isstyles} className="mb-md-2 mb-3  map1"></div>
 
                     {fulldata && fulldata.map((camp) => (<div key={camp._id} className="border-bottom mb-3 mb-md-0">
                         <div className="row">
