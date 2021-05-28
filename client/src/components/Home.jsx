@@ -34,11 +34,11 @@ const Home = () => {
         <Fragment>
             {isspin ? <Spin /> : <Fragment>
 
-                <main className="container  my-5">
+                <main className="container my-5">
                     <Flash />
-                    <div id='map' className="mb-2 map1"></div>
+                    <div id='map' className="mb-md-2 mb-3  map1"></div>
 
-                    {fulldata && fulldata.map((camp) => (<div key={camp._id} className="border-bottom">
+                    {fulldata && fulldata.map((camp) => (<div key={camp._id} className="border-bottom mb-2 mb-md-0">
                         <div className="row">
                             <div className="col-md-4">
                                 <div className=" carousel-inner carimg">
@@ -64,12 +64,11 @@ const Home = () => {
                             </div>
                         </div>
                     </div>))}
-
+                    <Helmet>
+                        <script src="/javascripts/cluster.js"></script>
+                    </Helmet>
                 </main>
-                {/* <ScriptTag type="text/javascript" src="/javascripts/cluster.js" /> */}
-                <Helmet>
-                    <script src="/javascripts/cluster.js"></script>
-                </Helmet>
+
 
             </Fragment>}
 
