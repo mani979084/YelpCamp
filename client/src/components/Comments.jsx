@@ -2,6 +2,7 @@ import React, { Fragment, useState } from 'react'
 import axios from 'axios';
 import qs from 'qs'
 import Deletespin from './partials/Deletespin';
+import { Helmet } from 'react-helmet';
 
 
 
@@ -66,7 +67,7 @@ const Comments = ({ currentUser, camp, id, getcamp }) => {
     return (
         <Fragment>
             <div id='map1' className="mb-3 map2"></div>
-
+            <div id="campid" campid={id}></div>
             {currentUser && <div id='review' className="card">
                 <h5 className="card-header">Leave a Comment!  </h5>
                 <div className="card-body pt-0">
@@ -145,6 +146,9 @@ const Comments = ({ currentUser, camp, id, getcamp }) => {
                         </div>
                     </div>
                 ))}
+                <Helmet>
+                    <script src="/javascripts/showPageMap.js"></script>
+                </Helmet>
             </Fragment>}
 
 

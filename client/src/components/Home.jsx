@@ -41,7 +41,7 @@ const Home = () => {
         <Fragment>
             {isspin ? <Spin /> : <Fragment>
 
-                <main className="container  mt-5">
+                <main className="container  my-5">
                     <Flash />
                     <div id='map' className="mb-2 map1"></div>
 

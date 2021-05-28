@@ -10,7 +10,6 @@ import { setSpinner, removeSpinner } from '../actions/spinner'
 
 import Comments from './Comments'
 import Back from './partials/Back'
-import { Helmet } from 'react-helmet'
 
 const Show = ({ currentUser, setAlert, spinner, setSpinner, removeSpinner }) => {
 
@@ -88,7 +87,7 @@ const Show = ({ currentUser, setAlert, spinner, setSpinner, removeSpinner }) => 
             {isspin ? <Spin /> : <main className="container  mt-5">
 
                 {
-                    camp.images && <Fragment> <div id="campid" campid={id} className="container mb-5">
+                    camp.images && <Fragment> <div className="container mb-5">
                         <div className="row">
                             <Flash />
                             <Back buttonClick={buttonClick} />
@@ -170,9 +169,7 @@ const Show = ({ currentUser, setAlert, spinner, setSpinner, removeSpinner }) => 
                             </div>
                         </div>
                     </div>
-                        <Helmet>
-                            <script src="/javascripts/showPageMap.js"></script>
-                        </Helmet>
+
                     </Fragment>
                 }
             </main>}
