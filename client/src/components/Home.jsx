@@ -38,7 +38,7 @@ const Home = () => {
                     <Flash />
                     <div id='map' className="mb-md-2 mb-3  map1"></div>
 
-                    {fulldata && fulldata.map((camp) => (<div key={camp._id} className="border-bottom mb-2 mb-md-0">
+                    {fulldata && fulldata.map((camp) => (<div key={camp._id} className="border-bottom mb-3 mb-md-0">
                         <div className="row">
                             <div className="col-md-4">
                                 <div className=" carousel-inner carimg">
