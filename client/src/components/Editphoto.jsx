@@ -152,7 +152,7 @@ const Editphoto = ({ setAlert, setSpinner, removeSpinner, spinner }) => {
                                     </div>
 
                                     <div className="text-center card-body">
-                                        <button className="btn btn-primary w-50">Update Photos <div style={spinner} className="spinner-border spinner-border-sm" role="status" /></button>
+                                        <button className="btn btn-primary w-md-50">Update Photos <div style={spinner} className="spinner-border spinner-border-sm" role="status" /></button>
                                     </div>
                                 </form>
                             </div>

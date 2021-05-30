@@ -149,7 +149,7 @@ const Create = ({ setAlert }) => {
                                         <input onChange={handleChange} className="form-control" type="file" id="formFileMultiple" name="images" multiple />
                                     </div>
                                     <div className="text-center card-body">
-                                        <button className="btn btn-success w-50">Add Campgound <div style={spin1} className="spinner-border spinner-border-sm" role="status" /></button>
+                                        <button className="btn btn-success w-md-50">Add Campgound <div style={spin1} className="spinner-border spinner-border-sm" role="status" /></button>
 
                                     </div>
                                 </form>

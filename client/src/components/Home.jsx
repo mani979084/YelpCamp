@@ -58,7 +58,7 @@ const Home = () => {
                                     <p className="card-text"><small className="text-muted">
                                         {camp.location}
                                     </small></p>
-                                    <Link className="btn btn-primary w-50" to={`/campground/${camp._id}`}>View {camp.title}
+                                    <Link className="btn btn-primary w-md-50" to={`/campground/${camp._id}`}>View {camp.title}
                                     </Link>
                                 </div>
                             </div>

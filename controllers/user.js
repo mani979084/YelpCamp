@@ -32,7 +32,7 @@ module.exports.renderLogin = (req, res) => {
 
 module.exports.loginUser = (req, res) => {
     req.flash('success', 'Welcome Back!');
-    const newurl = req.session.returnTo.replace('/api/', '/')
+    const newurl = req.session.returnTo && req.session.returnTo.replace('/api/', '/')
     const url = newurl || '/campground';
     delete req.session.returnTo;
     res.json({ url: url, success: 'Welcome Back!' });
