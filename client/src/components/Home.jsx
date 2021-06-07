@@ -1,7 +1,6 @@
 import React, { Fragment, useEffect, useState } from 'react'
 import { Link } from 'react-router-dom'
 import axios from 'axios'
-// import ScriptTag from 'react-script-tag'
 import { Helmet } from 'react-helmet'
 import Flash from './partials/Flash'
 import Spin from './partials/Spin'
@@ -58,7 +57,7 @@ const Home = () => {
                                     <p className="card-text"><small className="text-muted">
                                         {camp.location}
                                     </small></p>
-                                    <Link className="btn btn-primary w-md-50" to={`/campground/${camp._id}`}>View {camp.title}
+                                    <Link className="btn btn-primary" to={`/campground/${camp._id}`}>View {camp.title}
                                     </Link>
                                 </div>
                             </div>

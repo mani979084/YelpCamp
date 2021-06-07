@@ -83,7 +83,6 @@ const Login = ({ getlocals, setAlert, setSpinner, removeSpinner, spinner }) => {
                 <div className="row mb-5">
 
                     <div className="col-10 offset-1 col-md-6 offset-md-3 col-xl-4 offset-xl-4">
-                        {/* <%- include('../partials/flashAlert') %> */}
                         <Flash />
                         <Back buttonClick={buttonClick} />
 

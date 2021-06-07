@@ -4,7 +4,6 @@ const catchAsync = require('../error/catchAsync')
 const campgrounds = require('../controllers/campground')
 const multer = require('multer')
 const { storage } = require('../cloudinary')
-const Campground = require('../models/campground')
 
 const upload = multer({ storage });
 

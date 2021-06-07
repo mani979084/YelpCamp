@@ -36,15 +36,12 @@ const Main = ({ currentUser, getlocals }) => {
                             <nav className="nav nav-masthead justify-content-center float-md-end">
                                 <Link className="nav-link active" aria-current="page" to="/">Home</Link>
                                 <Link className="nav-link" to="/campground">campgrounds</Link>
-                                {/* <% if(!currentUser){ %> */}
+
                                 {!currentUser ? <Fragment>
                                     <Link className="nav-link" to="/login">Login</Link>
                                     <Link className="nav-link" to="/register">Register</Link>
                                 </Fragment> : <Link onClick={handleClick} className="nav-link" to="#!">Logout <div style={spin1} className="spinner-border spinner-border-sm text-light" role="status" /></Link>}
 
-                                {/* <% }else{ %> */}
-
-                                {/* <% } %> */}
                             </nav>
                         </div>
                     </header>

@@ -76,7 +76,6 @@ const Editphoto = ({ setAlert, setSpinner, removeSpinner, spinner }) => {
                 setAlert(res.data.success, 'success')
             } else {
                 setAlert(res.data.error, 'danger')
-                seterror(true)
 
             }
 
@@ -109,7 +108,7 @@ const Editphoto = ({ setAlert, setSpinner, removeSpinner, spinner }) => {
 
                 {camp && <div className="row mb-5">
                     <div className="col-md-6 offset-md-3">
-                        {/* <%- include('../partials/flashAlert') %> */}
+
                         <Flash />
                         <Back buttonClick={buttonClick} />
                         <div className="card shadow">
@@ -122,7 +121,7 @@ const Editphoto = ({ setAlert, setSpinner, removeSpinner, spinner }) => {
                                         <input onChange={handleChange} className="form-control" type="file" id="formFileMultiple" name="images" multiple />
                                     </div>
                                     <div className="row">
-                                        {/* <% camp.images.forEach((img,i)=>{ %> */}
+
                                         {camp.images && camp.images.map((img, i) => (<Fragment key={img._id}>
                                             <div className="col-4 col-xl-3 mb-3 ">
                                                 <div className={img.filename === 'default' ? 'd-none' : ''}>
@@ -148,7 +147,7 @@ const Editphoto = ({ setAlert, setSpinner, removeSpinner, spinner }) => {
                                             </div>
                                         </Fragment>))}
 
-                                        {/* <% }) %> */}
+
                                     </div>
 
                                     <div className="text-center card-body">

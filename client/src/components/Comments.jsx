@@ -61,7 +61,6 @@ const Comments = ({ currentUser, camp, id, getcamp }) => {
         }
         fetchMyApi();
     }
-    // /campground/<%=camp._id %>/review/<%=review._id
 
     return (
         <Fragment>
@@ -115,8 +114,6 @@ const Comments = ({ currentUser, camp, id, getcamp }) => {
                 </div>
             </div>}
 
-            {/* <% } %> */}
-            {/* <%for(let review of camp.reviews){%> */}
 
             {spin2 ? <Deletespin /> : <Fragment>
                 {camp.reviews.map((review) => (
@@ -136,7 +133,7 @@ const Comments = ({ currentUser, camp, id, getcamp }) => {
 
                                 {review.comment}
                             </p>
-                            {/* <% if(currentUser && review.author.equals(currentUser._id)){ %> */}
+
                             {currentUser && review.author._id === currentUser._id &&
                                 <button onClick={handleClick} name={review._id} className="btn btn-sm btn-warning">Delete </button>
 

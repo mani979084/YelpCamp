@@ -68,7 +68,6 @@ const Create = ({ setAlert }) => {
 
             } else {
                 setAlert(res.data.error, 'danger')
-                seterror(true)
             }
 
         }
@@ -103,7 +102,6 @@ const Create = ({ setAlert }) => {
 
                 <div className="row mb-5">
                     <div className="col-10 offset-1 col-md-6 offset-md-3">
-                        {/* <%- include('../partials/flashAlert') %> */}
                         <Flash />
                         <Back buttonClick={buttonClick} />
                         <div className="card shadow">

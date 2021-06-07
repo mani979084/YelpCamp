@@ -18,8 +18,6 @@ import store from './store'
 import Notfound from './components/partials/Notfound';
 
 
-
-
 function App() {
 
   const [locals, setlocals] = useState('');
@@ -44,86 +42,60 @@ function App() {
       <Router>
         <Fragment>
           <Switch>
-
             <Route exact path='/' render={() => (<Main currentUser={locals.currentUser} getlocals={getlocals} />)} />
 
-
             <Switch>
-
               <Route exact path='/login' render={() => (<Fragment>
                 <Navbar currentUser={locals.currentUser} getlocals={getlocals} />
-
                 <Login getlocals={getlocals} />
-
-
                 <Footer />
               </Fragment>
               )} />
 
               <Route exact path='/register' render={() => (<Fragment>
                 <Navbar currentUser={locals.currentUser} getlocals={getlocals} />
-
-
                 <Register getlocals={getlocals} />
-
                 <Footer />
               </Fragment>
               )} />
 
               <Route exact path='/campground' render={() => (<Fragment>
                 <Navbar currentUser={locals.currentUser} getlocals={getlocals} />
-
-
                 <Home />
-
                 <Footer />
               </Fragment>
               )} />
 
               <Route exact path='/campground/new' render={() => (<Fragment>
                 <Navbar currentUser={locals.currentUser} getlocals={getlocals} />
-
                 <Create />
-
-
                 <Footer />
               </Fragment>
               )} />
 
               <Route exact path='/campground/:id' render={() => (<Fragment>
                 <Navbar currentUser={locals.currentUser} getlocals={getlocals} />
-
-
                 <Show currentUser={locals.currentUser} />
-
                 <Footer />
               </Fragment>
               )} />
 
               <Route exact path='/campground/:id/edit' render={() => (<Fragment>
                 <Navbar currentUser={locals.currentUser} getlocals={getlocals} />
-
-
                 <Edit />
-
                 <Footer />
               </Fragment>
               )} />
 
               <Route exact path='/campground/:id/editphoto' render={() => (<Fragment>
                 <Navbar currentUser={locals.currentUser} getlocals={getlocals} />
-
-
                 <Editphoto />
-
                 <Footer />
               </Fragment>
               )} />
 
               <Route component={Notfound} />
-
             </Switch>
-
           </Switch>
         </Fragment>
       </Router>

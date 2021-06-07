@@ -74,14 +74,11 @@ const Edit = ({ setAlert }) => {
                 }
             })
             setspin1({ display: 'none' })
-
             if (res.data.success) {
                 setAlert(res.data.success, 'success')
                 setedit(true)
             } else {
                 setAlert(res.data.error, 'danger')
-                seterror(true)
-
             }
 
 
@@ -109,28 +106,24 @@ const Edit = ({ setAlert }) => {
 
             {camp && <div className="row mb-5">
                 <div className="col-10 offset-1 col-md-6 offset-md-3">
-                    {/* <%- include('../partials/flashAlert') %> */}
+
                     <Flash />
                     <Back buttonClick={buttonClick} />
 
                     <div className="card shadow">
                         <div className="card-body">
                             <h1 className="text-center mb-4">Editing Campground</h1>
-                            {/* action="/campground/<%=camp._id %>?_method=PUT" */}
+
                             <form onSubmit={handleSubmit} className="needs-validation" noValidate>
                                 <div> <label className="form-label" htmlFor="title">Enter Title</label>
                                     <input onChange={handleChange} className="form-control mb-3" type="text" name="title" id="title"
                                         value={inputs.campground.title} required />
-                                    <div className="valid-feedback mb-3">
-                                        Looks good!
-                </div>
+                                    <div className="valid-feedback mb-3">Looks good!</div>
                                 </div>
                                 <div><label className="form-label" htmlFor="loc">Enter Location</label>
                                     <input onChange={handleChange} className="form-control mb-3" type="text" name="location" id="loc"
                                         value={inputs.campground.location} required />
-                                    <div className="valid-feedback mb-3">
-                                        Looks good!
-                </div>
+                                    <div className="valid-feedback mb-3">Looks good!</div>
                                 </div>
 
                                 <div className="mb-3">
@@ -141,17 +134,13 @@ const Edit = ({ setAlert }) => {
                                         <input onChange={handleChange} id="price" name="price" type="text" className="form-control"
                                             placeholder="0.00" aria-label="price" aria-describedby="basic-addon1"
                                             value={inputs.campground.price} required />
-                                        <div className="valid-feedback mt-3">
-                                            Looks good!
-                    </div>
+                                        <div className="valid-feedback mt-3">Looks good!</div>
                                     </div>
                                 </div>
                                 <label className="form-label" htmlFor="desc">Description</label>
                                 <textarea onChange={handleChange} className="form-control mb-3" type="text" name="description" id="desc"
                                     required value={inputs.campground.description} />
-                                <div className="valid-feedback mb-3">
-                                    Looks good!
-            </div>
+                                <div className="valid-feedback mb-3"> Looks good!</div>
 
 
                                 <div className="row card-body px-0">

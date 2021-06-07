@@ -9,16 +9,12 @@ const geoCode = mbxGeocoding({ accessToken: token });
 module.exports.renderIndex = async (req, res) => {
     const campg = await Campground.find({});
     if (!campg) {
-        req.flash('error', 'Campground not found');
-        // return res.redirect('/');
         return res.json({ error: 'Campground not found' })
     }
-    // res.render('./campground/home', { campg })
     res.json(campg)
 }
 
 module.exports.renderNewCamp = (req, res) => {
-    // res.render('./campground/new')
     res.json({ success: 'Creating Camp' })
 }
 
@@ -32,8 +28,6 @@ module.exports.createCamp = async (req, res) => {
     })
         .send();
     if (!geo.body.features.length) {
-        req.flash('error', 'Sorry Please Enter a Valid Location!')
-        // camp.geometry = { type: 'Point', coordinates: [78.9629, 20.5937] }
         return res.json({ error: 'Sorry Please Enter a Valid Location!' })
     } else {
         const editGeo = geo.body.features[0].geometry;
@@ -50,12 +44,7 @@ module.exports.createCamp = async (req, res) => {
         msg += 'Created with New Photos'
     }
     await camp.save();
-
-    req.flash('success', msg);
     res.json({ success: msg })
-
-    // res.redirect(`/campground/${camp._id}`);
-
 
 }
 
@@ -67,7 +56,6 @@ module.exports.renderShow = async (req, res) => {
 
     }).populate('author');
     if (!camp) {
-        req.flash('error', 'Campground not found');
         return res.json({ error: 'campground not found' });
     }
     res.json(camp)
@@ -89,7 +77,6 @@ module.exports.editCamp = async (req, res) => {
         })
             .send();
         if (!geo.body.features.length) {
-            req.flash('error', 'Sorry please enter a valid location')
             return res.json({ error: 'Sorry please enter a valid location' })
         } else {
             const editGeo = geo.body.features[0].geometry;
@@ -97,12 +84,8 @@ module.exports.editCamp = async (req, res) => {
             await camp.save();
         }
     }
-
-
-    req.flash('success', 'Successfully Updated');
     res.json({ success: 'Successfully Updated' })
 
-    // res.redirect(`/campground/${camp._id}`);
 }
 
 module.exports.editphoto = async (req, res) => {
@@ -134,8 +117,6 @@ module.exports.editphoto = async (req, res) => {
             msg += '!'
         }
     }
-    req.flash('success', msg);
-    // res.redirect(`/campground/${camp._id}/edit`);
     res.json({ success: msg })
 }
 
@@ -153,7 +134,5 @@ module.exports.deleteCamp = async (req, res) => {
             await cloudinary.uploader.destroy(img.filename);
         }
     }
-    req.flash('success', 'Successfully deleted');
-    // res.redirect('/campground')
     res.json({ success: 'Successfully deleted' });
 }
