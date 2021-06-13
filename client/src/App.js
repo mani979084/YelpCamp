@@ -18,6 +18,7 @@ import store from './store'
 import Notfound from './components/partials/Notfound';
 
 
+
 function App() {
 
   const [locals, setlocals] = useState('');

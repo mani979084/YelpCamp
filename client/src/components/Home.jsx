@@ -1,16 +1,17 @@
 import React, { Fragment, useEffect, useState } from 'react'
 import { Link } from 'react-router-dom'
 import axios from 'axios'
-import { Helmet } from 'react-helmet'
+
 import Flash from './partials/Flash'
 import Spin from './partials/Spin'
+
+import Map1 from './partials/Map1'
 
 
 const Home = () => {
 
     const [fulldata, setfullData] = useState();
     const [isspin, setspin] = useState(true)
-
 
     useEffect(() => {
         async function fetch() {
@@ -35,8 +36,7 @@ const Home = () => {
 
                 <main className="container my-5">
                     <Flash />
-                    <div id='map' className="mb-md-2 mb-3  map1"></div>
-
+                    <Map1 fulldata={fulldata} />
                     {fulldata && fulldata.map((camp) => (<div key={camp._id} className="border-bottom mb-3 mb-md-0">
                         <div className="row">
                             <div className="col-md-4">
@@ -66,9 +66,7 @@ const Home = () => {
 
                 </main>
 
-                <Helmet>
-                    <script src="/javascripts/cluster.js"></script>
-                </Helmet>
+
             </Fragment>}
 
         </Fragment>

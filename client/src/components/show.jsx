@@ -10,7 +10,7 @@ import { setSpinner, removeSpinner } from '../actions/spinner'
 
 import Comments from './Comments'
 import Back from './partials/Back'
-import { Helmet } from 'react-helmet'
+
 
 const Show = ({ currentUser, setAlert, spinner, setSpinner, removeSpinner }) => {
 
@@ -151,9 +151,7 @@ const Show = ({ currentUser, setAlert, spinner, setSpinner, removeSpinner }) => 
             </Fragment>
             }
         </main>
-            <Helmet>
-                <script src="/javascripts/showPageMap.js"></script>
-            </Helmet>
+
         </Fragment>
         }
 

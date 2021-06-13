@@ -2,12 +2,14 @@ import React, { Fragment, useState } from 'react'
 import axios from 'axios';
 import qs from 'qs'
 import Deletespin from './partials/Deletespin';
+import Map2 from './partials/Map2';
+import Rating from '@material-ui/lab/Rating';
 
 
 
 const Comments = ({ currentUser, camp, id, getcamp }) => {
 
-    const [formin, setformin] = useState({ review: { rating: 5, comment: '' } });
+    const [formin, setformin] = useState({ review: { rating: 0, comment: '' } });
     const [spin1, setspin1] = useState({
         display: 'none'
     })
@@ -64,32 +66,21 @@ const Comments = ({ currentUser, camp, id, getcamp }) => {
 
     return (
         <Fragment>
-
-            <div id='map1' className="mb-3 map2"></div>
-            <div id="campid" campid={id}></div>
+            <Map2 camp={camp} />
             {currentUser && <div id='review' className="card">
                 <h5 className="card-header">Leave a Comment!  </h5>
                 <div className="card-body pt-0">
                     <form onSubmit={handleSubmit} className="needs-validation"
                         noValidate>
-                        <div className="d-flex d-inline">
-                            <div className="d-flex align-items-center">
-                                <h5 className="fs-4 me-2 mb-0">Star Rating</h5>
+                        <div className="d-flex align-items-center">
+                            <h5 className="fs-4 me-2 my-2">Star Rating</h5>
 
-                            </div>
-                            <fieldset className="starability-basic">
+                            <Rating
+                                name="rating"
+                                value={formin.review.rating}
+                                onChange={handleChange}
+                            />
 
-                                <input onChange={handleChange} type="radio" id="first-rate1" name="rating" value="1" />
-                                <label htmlFor="first-rate1" title="Terrible">1 star</label>
-                                <input onChange={handleChange} type="radio" id="first-rate2" name="rating" value="2" />
-                                <label htmlFor="first-rate2" title="Not good">2 stars</label>
-                                <input onChange={handleChange} type="radio" id="first-rate3" name="rating" value="3" />
-                                <label htmlFor="first-rate3" title="Average">3 stars</label>
-                                <input onChange={handleChange} type="radio" id="first-rate4" name="rating" value="4" />
-                                <label htmlFor="first-rate4" title="Very good">4 stars</label>
-                                <input onChange={handleChange} type="radio" id="first-rate5" name="rating" value="5" />
-                                <label htmlFor="first-rate5" title="Amazing">5 stars</label>
-                            </fieldset>
                         </div>
 
 
@@ -99,7 +90,7 @@ const Comments = ({ currentUser, camp, id, getcamp }) => {
 
                             <div className="invalid-feedback">
                                 Please enter your comments.
-                        </div>
+                            </div>
                         </div>
                         <div className='d-flex'>
                             <button className="btn btn-success mt-3">Leave comment</button>
@@ -126,9 +117,7 @@ const Comments = ({ currentUser, camp, id, getcamp }) => {
                                 </small>
                             </h5>
 
-                            <p className="starability-result" data-rating={review.rating}>
-                                Rated: {review.rating}stars
-                        </p>
+                            <Rating name="read-only" value={review.rating} readOnly />
                             <p className="card-text">
 
                                 {review.comment}
@@ -139,7 +128,6 @@ const Comments = ({ currentUser, camp, id, getcamp }) => {
 
                             }
 
-                            {/* <% } %> */}
                         </div>
                     </div>
                 ))}
