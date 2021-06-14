@@ -9,10 +9,8 @@ import Rating from '@material-ui/lab/Rating';
 
 const Comments = ({ currentUser, camp, id, getcamp }) => {
 
-    const [formin, setformin] = useState({ review: { rating: 0, comment: '' } });
-    const [spin1, setspin1] = useState({
-        display: 'none'
-    })
+    const [formin, setformin] = useState({ review: { rating: 1, comment: '' } });
+
     const [spin2, setspin2] = useState(false)
 
     function handleChange(e) {
@@ -25,7 +23,7 @@ const Comments = ({ currentUser, camp, id, getcamp }) => {
         if (!e.target.checkValidity()) {
             return e.target.classList.add('was-validated')
         }
-        setspin1({ display: '' })
+        setspin2(true)
         async function fetchMyApi() {
 
             await axios({
@@ -39,8 +37,9 @@ const Comments = ({ currentUser, camp, id, getcamp }) => {
             e.target.classList.remove('was-validated')
             getcamp()
             setTimeout(() => {
-                setspin1({ display: 'none' })
-            }, 1000);
+                setspin2(false)
+            }, 1500);
+            setformin({ review: { rating: 1, comment: '' } })
         }
         fetchMyApi();
 
@@ -58,7 +57,7 @@ const Comments = ({ currentUser, camp, id, getcamp }) => {
             getcamp()
             setTimeout(() => {
                 setspin2(false)
-            }, 1000);
+            }, 1500);
 
         }
         fetchMyApi();
@@ -94,7 +93,6 @@ const Comments = ({ currentUser, camp, id, getcamp }) => {
                         </div>
                         <div className='d-flex'>
                             <button className="btn btn-success mt-3">Leave comment</button>
-                            <button className='mt-3 trans'><div style={spin1} className="spinner-border spinner-border-sm text-success" role="status" /></button>
 
                             <button type="button" className="btn com-bn btn-primary mt-3 ms-auto">
                                 comments <span className="badge bg-light text-dark">{camp.reviews.length}</span>

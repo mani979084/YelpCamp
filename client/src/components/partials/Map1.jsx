@@ -144,7 +144,7 @@ const Map1 = ({ fulldata }) => {
 
     return (
         <>
-            <div id='map' className="mb-md-2 mb-3  map1"></div>
+            <div id='map' className="map1 mb"></div>
 
         </>
     )

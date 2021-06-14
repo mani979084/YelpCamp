@@ -101,12 +101,12 @@ const Create = ({ setAlert }) => {
             <main className="container  mt-5">
 
                 <div className="row mb-5">
-                    <div className="col-10 offset-1 col-md-6 offset-md-3">
+                    <div className="col-md-8  offset-md-2 col-lg-6 offset-lg-3">
                         <Flash />
                         <Back buttonClick={buttonClick} />
                         <div className="card shadow">
                             <div className="card-body">
-                                <h1 className="text-center mb-4">Creating Campground</h1>
+                                <h1 className="text-center mb-4">Create Campground</h1>
 
                                 <form id='myForm' onSubmit={handleSubmit} className="needs-validation"
                                     noValidate>
@@ -115,13 +115,13 @@ const Create = ({ setAlert }) => {
                                         <input onChange={handleChange} className="form-control mb-3" type="text" name="title" required id="title" />
                                         <div className="valid-feedback mb-3">
                                             Looks good!
-                            </div>
+                                        </div>
                                     </div>
                                     <div> <label className="form-label" htmlFor="loc">Enter Location</label>
                                         <input onChange={handleChange} className="form-control mb-3" type="text" name="location" required id="loc" />
                                         <div className="valid-feedback mb-3">
                                             Looks good!
-                            </div>
+                                        </div>
                                     </div>
 
                                     <div className="mb-3">
@@ -133,7 +133,7 @@ const Create = ({ setAlert }) => {
                                                 placeholder="0.00" aria-label="price" aria-describedby="basic-addon1" required />
                                             <div className="valid-feedback mt-3">
                                                 Looks good!
-                                </div>
+                                            </div>
                                         </div>
                                     </div>
                                     <label className="form-label" htmlFor="desc">Description</label>
@@ -141,7 +141,7 @@ const Create = ({ setAlert }) => {
                                         required></textarea>
                                     <div className="valid-feedback mb-3">
                                         Looks good!
-                        </div>
+                                    </div>
                                     <div className="mb-3">
                                         <label htmlFor="formFileMultiple" className="form-label">Upload Images</label>
                                         <input onChange={handleChange} className="form-control" type="file" id="formFileMultiple" name="images" multiple />

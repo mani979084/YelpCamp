@@ -6,12 +6,23 @@ import Flash from './partials/Flash'
 import Spin from './partials/Spin'
 
 import Map1 from './partials/Map1'
+import Pagination from './Pagination'
 
 
 const Home = () => {
 
-    const [fulldata, setfullData] = useState();
+    const [fulldata, setfullData] = useState([]);
     const [isspin, setspin] = useState(true)
+
+    const [currentPage, setCurrentPage] = useState(1);
+    const [postsPerPage] = useState(10);
+
+    // Get current posts
+    const indexOfLastPost = currentPage * postsPerPage;
+    const indexOfFirstPost = indexOfLastPost - postsPerPage;
+    const currentPosts = fulldata.slice(indexOfFirstPost, indexOfLastPost);
+
+    const paginate = pageNumber => setCurrentPage(pageNumber);
 
     useEffect(() => {
         async function fetch() {
@@ -37,7 +48,7 @@ const Home = () => {
                 <main className="container my-5">
                     <Flash />
                     <Map1 fulldata={fulldata} />
-                    {fulldata && fulldata.map((camp) => (<div key={camp._id} className="border-bottom mb-3 mb-md-0">
+                    {fulldata && currentPosts.map((camp) => (<div key={camp._id} className="border-bottom">
                         <div className="row">
                             <div className="col-md-4">
                                 <div className=" carousel-inner carimg">
@@ -65,6 +76,11 @@ const Home = () => {
                     </div>))}
 
                 </main>
+                <Pagination
+                    postsPerPage={postsPerPage}
+                    totalPosts={fulldata.length}
+                    paginate={paginate}
+                />
 
 
             </Fragment>}

@@ -107,7 +107,7 @@ const Editphoto = ({ setAlert, setSpinner, removeSpinner, spinner }) => {
             {isspin ? <Spin /> : <main className="container  mt-5">
 
                 {camp && <div className="row mb-5">
-                    <div className="col-md-6 offset-md-3">
+                    <div className="col-md-8  offset-md-2 col-lg-6 offset-lg-3">
 
                         <Flash />
                         <Back buttonClick={buttonClick} />
@@ -123,7 +123,7 @@ const Editphoto = ({ setAlert, setSpinner, removeSpinner, spinner }) => {
                                     <div className="row">
 
                                         {camp.images && camp.images.map((img, i) => (<Fragment key={img._id}>
-                                            <div className="col-4 col-xl-3 mb-3 ">
+                                            <div className="col-6 col-md-4 col-xl-3 mb-3 ">
                                                 <div className={img.filename === 'default' ? 'd-none' : ''}>
                                                     <div className="carousel-inner thumb">
 
@@ -137,7 +137,7 @@ const Editphoto = ({ setAlert, setSpinner, removeSpinner, spinner }) => {
                                                             value={img.filename} id={`image-${i}`} />
                                                         <label className="form-check-label" htmlFor={`image-${i}`}>
                                                             Delete?
-                                </label>
+                                                        </label>
 
                                                     </div>
                                                 </div>

@@ -1,6 +1,6 @@
-// if (process.env.NODE_ENV !== 'production') {
-require('dotenv').config()
-// }
+if (process.env.NODE_ENV !== 'production') {
+    require('dotenv').config()
+}
 
 const express = require('express');
 const app = express();
@@ -95,7 +95,7 @@ app.use((err, req, res, next) => {
     res.json({ error: err.message });
 })
 
-if (process.env.NODE_ENV !== 'production') {
+if (process.env.NODE_ENV === 'production') {
     app.use(express.static('client/build'));
 
     app.get('*', (req, res) => {

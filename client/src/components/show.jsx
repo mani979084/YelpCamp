@@ -72,23 +72,12 @@ const Show = ({ currentUser, setAlert, spinner, setSpinner, removeSpinner }) => 
         return <Redirect to='/campground' />
     }
 
-    const styles = {
-
-        width: 'auto',
-        height: '400px',
-        maxHeight: '400px',
-        display: 'flex',
-        alignItems: 'center'
-
-    }
-
-
     return (
         <Fragment>{isspin ? <Spin /> : <Fragment><main className="container  mt-5">
 
-            {camp.images && <Fragment> <div className="container mb-5"><div className="row"><Flash /><Back buttonClick={buttonClick} /><div className="col-md-6"><div className="card"><div className="card-body">
+            {camp.images && <Fragment> <div className="container mb-5"><div className="row"><Flash /><Back buttonClick={buttonClick} /><div className="col-lg-6 "><div className="card"><div className="card-body">
 
-                <div id="carouselExampleControls" className="carousel mb-3 slide" data-bs-ride="carousel"><div className="carousel-inner" style={styles}>{camp.images.map((img, i) => (
+                <div id="carouselExampleControls" className="carousel mb-3 slide" data-bs-ride="carousel"><div className="carousel-inner show-img">{camp.images.map((img, i) => (
                     <div key={img._id} className={`carousel-item ${(i === 0) ? 'active' : ''}`}>
                         <img src={img.url} className="d-block w-100" alt="..." />
                     </div>
@@ -142,7 +131,7 @@ const Show = ({ currentUser, setAlert, spinner, setSpinner, removeSpinner }) => 
                 <footer className="card-footer text-muted">2 days ago</footer>
             </div>
             </div>
-                <div className="col-md-6 mt-3 mt-md-0">
+                <div className="col-lg-6 mt-3 mt-md-0">
                     <Comments currentUser={currentUser} getcamp={getcamp} camp={camp} id={id} />
                 </div>
             </div>

@@ -1,6 +1,7 @@
 import React, { Fragment, useState } from 'react'
 import { Link } from 'react-router-dom'
 import axios from 'axios'
+import './home.css'
 
 
 const Main = ({ currentUser, getlocals }) => {
@@ -50,12 +51,12 @@ const Main = ({ currentUser, getlocals }) => {
                         <h1>YelpCamp</h1>
                         <p className="lead">Welcome to YelpCamp <br />
                             Jump right in and explore our many campgrounds. <br />
-                                Feel free to share your own campgrounds and comment on others!
+                            Feel free to share your own campgrounds and comment on others!
                         </p>
 
                         <p className="lead">
                             <Link to="/campground" className="btn btn-lg btn-secondary fw-bold border-white bg-white">View
-                        Campgrounds</Link>
+                                Campgrounds</Link>
                         </p>
                     </main>
 

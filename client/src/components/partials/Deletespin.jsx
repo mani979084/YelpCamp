@@ -1,9 +1,10 @@
 import React from 'react'
+import './delete.css'
 
 const Deletespin = () => {
     return (
         <div className='delete-spin '>
-            <div className="lds-dual-ring"></div>
+            <div class="loader"></div>
         </div>
     )
 }

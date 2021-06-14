@@ -105,7 +105,7 @@ const Edit = ({ setAlert }) => {
         {isspin ? <Spin /> : <main className="container  mt-5">
 
             {camp && <div className="row mb-5">
-                <div className="col-10 offset-1 col-md-6 offset-md-3">
+                <div className="col-md-8  offset-md-2 col-lg-6 offset-lg-3">
 
                     <Flash />
                     <Back buttonClick={buttonClick} />
@@ -146,7 +146,7 @@ const Edit = ({ setAlert }) => {
                                 <div className="row card-body px-0">
                                     <div className="col-md-6 d-grid mb-3 mb-md-0">
                                         <Link to={`/campground/${camp._id}/editphoto`} className="card-link btn btn-info">Edit
-                        Photos</Link>
+                                            Photos</Link>
                                     </div>
                                     <div className="col-md-6 d-grid">
                                         <button className="btn btn-success ">Update Campgound <div style={spin1} className="spinner-border spinner-border-sm" role="status" /></button>

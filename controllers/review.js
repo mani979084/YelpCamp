@@ -9,7 +9,7 @@ module.exports.createReview = async (req, res) => {
     if (!camp) {
         return res.json({ error: 'Unable to Leave your Comment!' })
     }
-    camp.reviews.push(review);
+    camp.reviews.unshift(review);
     await review.save();
     await camp.save();
     res.json({ success: 'Successfully Added your Comment!' })
