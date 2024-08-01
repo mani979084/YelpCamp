@@ -4,7 +4,7 @@ if (process.env.NODE_ENV !== "production") {
 
 const express = require("express");
 const app = express();
-
+const cors = require("cors");
 const connectDB = require("./config/mongoDB");
 const { store, sessionConfig } = require("./config/mongoStore");
 
@@ -25,6 +25,7 @@ const {
   styleSrcUrls,
   fontSrcUrls,
 } = require("./config/helmet");
+const auth = require("./auth");
 
 connectDB();
 
@@ -32,6 +33,7 @@ store.on("error", (err) => {
   console.log("session store error", err);
 });
 
+app.use(cors());
 app.use(function (req, res, next) {
   res.header("Access-Control-Allow-Credentials", true);
   res.header("Access-Control-Allow-Origin", req.headers.origin);
@@ -46,7 +48,6 @@ app.use(function (req, res, next) {
     next();
   }
 });
-
 app.use(express.urlencoded({ extended: true }));
 app.use(session(sessionConfig));
 app.use(
@@ -88,7 +89,7 @@ app.use("/api", userRoute);
 app.use("/api/campground", campgroundRoute);
 app.use("/api/campground/:id/review", reviewRoute);
 
-app.get("/api/locals", (req, res) => {
+app.get("/api/locals", auth, (req, res) => {
   res.json({
     path: req.session.path || null,
     currentUser: req.user || null,
