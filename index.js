@@ -4,7 +4,6 @@ if (process.env.NODE_ENV !== "production") {
 
 const express = require("express");
 const app = express();
-const path = require("path");
 
 const connectDB = require("./config/mongoDB");
 const { store, sessionConfig } = require("./config/mongoStore");
@@ -100,14 +99,6 @@ app.use((err, req, res, next) => {
   if (!err.message) err.message = "Oh boy,Something went wrong";
   res.json({ error: err.message });
 });
-
-if (process.env.NODE_ENV === "production") {
-  app.use(express.static("client/build"));
-
-  app.get("*", (req, res) => {
-    res.sendFile(path.resolve(__dirname, "client", "build", "index.html"));
-  });
-}
 
 const port = process.env.PORT || 5000;
 
